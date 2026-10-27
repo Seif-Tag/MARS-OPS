@@ -1,3 +1,5 @@
+package com.mycompany.mars.ops;
+
 import java.util.ArrayList;
 
 public class COLONY_MANAGMENT {
@@ -210,25 +212,24 @@ public class COLONY_MANAGMENT {
         System.out.println("Total spare parts is "
                 + getTotalResource("spare parts"));
     }
-}
-public void advanceMissionTime() {
-    if (activeMission == null) {
-        System.out.println("No active mission.");
-        return;
+    public void advanceMissionTime() {
+        if (activeMission == null) {
+            System.out.println("No active mission.");
+            return;
+        }
+
+        if (!activeMission.getStatus().equals("IN_PROGRESS")) {
+            System.out.println("Mission is not in progress.");
+            return;
+        }
+
+        activeMission.advanceTime();
+
+        System.out.println("Mission time: "  + activeMission.getElapsed_time() + "/"+ activeMission.getDuration());
+
+        if (activeMission.getStatus().equals("COMPLETED")) {
+            finishActiveMission(true, "");
+            System.out.println("Mission completed successfully.");
+        }
     }
-
-    if (!activeMission.getStatus().equals("IN_PROGRESS")) {
-        System.out.println("Mission is not in progress.");
-        return;
-    }
-
-    activeMission.advanceTime();
-
-    System.out.println("Mission time: "  + activeMission.getElapsed_time() + "/"+ activeMission.getDuration());
-
-    if (activeMission.getStatus().equals("COMPLETED")) {
-        finishActiveMission(true, "");
-        System.out.println("Mission completed successfully.");
-    }
-}
 }
