@@ -1,3 +1,5 @@
+package com.mycompany.mars.ops;
+
 import java.util.ArrayList;
 
 public class MISSION {
