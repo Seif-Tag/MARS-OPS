@@ -28,3 +28,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/MARS-OPS/nbproject/private/
+/MARS-OPS/build/
+/MARS-OPS/dist/

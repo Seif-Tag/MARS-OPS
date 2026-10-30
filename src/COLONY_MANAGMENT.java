@@ -1,5 +1,3 @@
-package com.mycompany.mars.ops;
-
 import java.util.ArrayList;
 
 public class COLONY_MANAGMENT {
@@ -7,12 +5,19 @@ public class COLONY_MANAGMENT {
     protected ArrayList<FACILITIES> facility;
     protected ArrayList<MISSON_CAPABLE> agents;
     private MISSION activeMission;
+    private Enviroment enviroment;
 
     public COLONY_MANAGMENT() {
         facility = new ArrayList<>();
         agents = new ArrayList<>();
         activeMission = null;
+        enviroment=enviroment.Normal;
     }
+
+    public Enviroment getEnviroment() {
+        return enviroment;
+    }
+    
 
     public void addFacility(FACILITIES item) {
         facility.add(item);
@@ -37,6 +42,9 @@ public class COLONY_MANAGMENT {
 
         return total;
     }
+    public ArrayList<MISSON_CAPABLE> getAgents() {
+    return agents;
+}
 
     public boolean ReqResource(String name, int amount) {
         if (amount <= 0 || getTotalResource(name) < amount) {
@@ -87,6 +95,11 @@ public class COLONY_MANAGMENT {
 
         if (activeMission != null) {
             mission.fail("Another mission is already active.");
+            return false;
+        }
+        if(mission.enviroment_mission(enviroment))
+        {
+            mission.fail("due to enviroment condition "+enviroment);
             return false;
         }
 
@@ -155,13 +168,22 @@ public class COLONY_MANAGMENT {
 
         return true;
     }
+   public void startActiveMission() {
+    if (activeMission != null
+            && activeMission.getStatus().equalsIgnoreCase("ASSIGNED")) {
+        activeMission.setStatus("IN_PROGRESS");
 
-    public void startActiveMission() {
-        if (activeMission != null
-                && activeMission.getStatus().equalsIgnoreCase("ASSIGNED")) {
-            activeMission.setStatus("IN_PROGRESS");
+        if (activeMission.getType().equalsIgnoreCase("exploration")) {     
+            for (MISSON_CAPABLE agent : activeMission.getAssignedAgents()) {
+                agent.set_location("Surface");
+            }
         }
-    }
+
+    }                                       
+}
+    
+    
+    
 
     public void finishActiveMission(boolean completed, String reason) {
         if (activeMission == null) {
@@ -179,6 +201,18 @@ public class COLONY_MANAGMENT {
         }
 
         activeMission = null;
+    }
+    public void env_change(Enviroment new_env)
+    {
+        
+        System.out.println("the weather changed from"+enviroment+"to"+new_env);
+        enviroment=new_env;
+        if( activeMission!= null && activeMission.enviroment_mission(new_env) )
+        {
+          finishActiveMission(false,"the enviroment conditions changed  ");
+        }
+        
+        
     }
 
     public MISSION getActiveMission() {
@@ -213,23 +247,26 @@ public class COLONY_MANAGMENT {
                 + getTotalResource("spare parts"));
     }
     public void advanceMissionTime() {
-        if (activeMission == null) {
-            System.out.println("No active mission.");
-            return;
-        }
-
-        if (!activeMission.getStatus().equals("IN_PROGRESS")) {
-            System.out.println("Mission is not in progress.");
-            return;
-        }
-
-        activeMission.advanceTime();
-
-        System.out.println("Mission time: "  + activeMission.getElapsed_time() + "/"+ activeMission.getDuration());
-
-        if (activeMission.getStatus().equals("COMPLETED")) {
-            finishActiveMission(true, "");
-            System.out.println("Mission completed successfully.");
-        }
+    if (activeMission == null) {
+        System.out.println("No active mission.");
+        return;
     }
+
+    if (!activeMission.getStatus().equals("IN_PROGRESS")) {
+        System.out.println("Mission is not in progress.");
+        return;
+    }
+
+    activeMission.advanceTime();
+
+    System.out.println("Mission time: "
+            + activeMission.getElapsed_time() + "/"
+            + activeMission.getDuration());
+
+    if (activeMission.getStatus().equalsIgnoreCase("COMPLETED")) {
+        finishActiveMission(true, "");
+        System.out.println("Mission completed successfully.");
+    }
+ }
+    
 }

@@ -4,4 +4,5 @@ public class LABS extends FACILITIES {
         super(location, capacitiy, OP_STAT);
     }
     
+    
 }

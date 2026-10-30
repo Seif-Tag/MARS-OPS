@@ -48,5 +48,46 @@ public class ROBOTIC_UNITS implements MISSON_CAPABLE{
     public boolean canPerform(MISSION mission) {
         return false;
     }
+
+    @Override
+    public String get_location() {
+        return CURRENT_LOC;
+    }
+
+    @Override
+    public void set_location(String location) {
+        this.CURRENT_LOC=location;
+    }
+    @Override
+  public boolean canHandle(String emergencyType) {
+    return false;
+    }
+    public boolean isUsable() {
+        return HEALTH_DAMAGE_STAT.equalsIgnoreCase("Healthy") && battery_level > 0;
+    }
+    public boolean isrobot()
+    {
+        return true;
+    }
+    
+    public void set_health(String health) {
+    setHEALTH_DAMAGE_STAT(health);
+    }
+
+    public String getAvailabity() {
+        return Availabity;
+    }
+
+    public void setAvailabity(String Availabity) {
+        this.Availabity = Availabity;
+    }
+    public void worksbytime()
+    {
+        battery_level-=10;
+        if(battery_level<=0)
+            battery_level=0;  
+    }
+
+    
     
 }

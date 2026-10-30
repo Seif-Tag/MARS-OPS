@@ -22,5 +22,9 @@ public class REPAIR_ROBOT extends ROBOTIC_UNITS{
         }
         return false;
     }
+    @Override
+public boolean canHandle(String type) {
+    return type.equalsIgnoreCase("OXYGEN_LEAK") || type.equalsIgnoreCase("fire");
+}
     
 }

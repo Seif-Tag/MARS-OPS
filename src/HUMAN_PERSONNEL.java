@@ -4,10 +4,10 @@ public class HUMAN_PERSONNEL implements MISSON_CAPABLE {
     protected String Health_Stat;
     protected String Current_STAT;
     protected String skill;
-    protected String FATIGUE_LEVEL;
+    protected int FATIGUE_LEVEL;
     protected String AVAILABILITY;
 
-    public HUMAN_PERSONNEL(String Name, int ID_NO, String Health_Stat, String Current_STAT, String skill, String FATIGUE_LEVEL, String AVAILABILITY) {
+    public HUMAN_PERSONNEL(String Name, int ID_NO, String Health_Stat, String Current_STAT, String skill, int FATIGUE_LEVEL, String AVAILABILITY) {
         this.Name = Name;
         this.ID_NO = ID_NO;
         this.Health_Stat = Health_Stat;
@@ -57,11 +57,11 @@ public class HUMAN_PERSONNEL implements MISSON_CAPABLE {
         this.skill = skill;
     }
 
-    public String getFATIGUE_LEVEL() {
+    public int getFATIGUE_LEVEL() {
         return FATIGUE_LEVEL;
     }
 
-    public void setFATIGUE_LEVEL(String FATIGUE_LEVEL) {
+    public void setFATIGUE_LEVEL(int FATIGUE_LEVEL) {
         this.FATIGUE_LEVEL = FATIGUE_LEVEL;
     }
 
@@ -79,5 +79,37 @@ public class HUMAN_PERSONNEL implements MISSON_CAPABLE {
     public boolean canPerform(MISSION mission) {
         return false;
     }
-    
-}
+
+    @Override
+    public String get_location() {
+        return Current_STAT;
+    }
+
+    @Override
+    public void set_location(String location) {
+        this.Current_STAT=location;
+    }
+    @Override
+    public boolean canHandle(String emergencyType) {
+    return false;
+    }
+    @Override
+    public boolean isUsable() {
+        return Health_Stat.equalsIgnoreCase("Healthy");
+    }
+    @Override
+    public boolean isrobot() {
+        return false;
+    }
+    @Override
+    public void set_health(String health) 
+    {
+       setHealth_Stat(health);
+
+    }
+    public void worksbytime()
+    {
+        FATIGUE_LEVEL+=1;
+    }
+
+  }
