@@ -12,18 +12,21 @@ public class SCIENTIST extends HUMAN_PERSONNEL {
         return responsibility;
     }
 
-    @Override
-    public boolean canPerform(MISSION mission) {
-        if(mission.getType().equalsIgnoreCase("research") && skill.equalsIgnoreCase(mission.getRequiredSkill())
-                && equipment.equalsIgnoreCase(mission.getRequiredEquipment())
-                && FATIGUE_LEVEL != 0
-                && AVAILABILITY == "TRUE"){
-            return true;
-        }
-        return false;
+   @Override
+public boolean canPerform(MISSION mission) {
+    if ((mission.getType().equalsIgnoreCase("research") ||
+         mission.getType().equalsIgnoreCase("exploration"))
+            && skill.equalsIgnoreCase(mission.getRequiredSkill())
+            && equipment.equalsIgnoreCase(mission.getRequiredEquipment())
+            && FATIGUE_LEVEL != 0
+            && AVAILABILITY.equalsIgnoreCase("TRUE")) {
+        return true;
+    }
+    return false;
+}
     }
 
    
     
     
-}
+
